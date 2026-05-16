@@ -6,8 +6,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { TabParamList, HomeStackParamList } from '@/types';
 import { colors, textStyles } from '@/constants';
 
-import { HomeScreen }         from '@/screens/Home/HomeScreen';
-import { StoreScreen }        from '@/screens/Store/StoreScreen';
+import { HomeScreen }          from '@/screens/Home/HomeScreen';
+import { StoreScreen }         from '@/screens/Store/StoreScreen';
+import { ProductDetailScreen } from '@/screens/ProductDetail/ProductDetailScreen';
 
 // Placeholder for screens not yet built
 const Placeholder = ({ name }: { name: string }) => (
@@ -23,7 +24,7 @@ const HomeNavigator = () => (
   <HomeStack.Navigator screenOptions={{ headerShown: false }}>
     <HomeStack.Screen name="Home"          component={HomeScreen} />
     <HomeStack.Screen name="Store"         component={StoreScreen} />
-    <HomeStack.Screen name="ProductDetail" component={() => <Placeholder name="Product detail" />} />
+    <HomeStack.Screen name="ProductDetail" component={ProductDetailScreen} />
   </HomeStack.Navigator>
 );
 
