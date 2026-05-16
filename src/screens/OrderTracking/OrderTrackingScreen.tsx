@@ -5,13 +5,13 @@ import {
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import type { OrdersStackParamList, OrderStatus } from '@/types';
+import type { CartStackParamList, OrderStatus } from '@/types';
 import { colors, spacing, borderRadius, textStyles, shadow } from '@/constants';
 import { useOrder } from '@/queries/useOrderQueries';
 import { LoadingSpinner } from '@/components/LoadingSpinner/LoadingSpinner';
 import { EmptyState }     from '@/components/EmptyState/EmptyState';
 
-type Props = NativeStackScreenProps<OrdersStackParamList, 'OrderTracking'>;
+type Props = NativeStackScreenProps<CartStackParamList, 'OrderTracking'>;
 
 interface StatusStep {
   key:     OrderStatus;
@@ -218,7 +218,7 @@ export const OrderTrackingScreen = ({ navigation, route }: Props) => {
         {isDelivered && (
           <TouchableOpacity
             style={styles.doneBtn}
-            onPress={() => navigation.navigate('Cart')}
+            onPress={() => navigation.popToTop()}
             activeOpacity={0.88}
           >
             <Text style={styles.doneBtnText}>Back to home</Text>

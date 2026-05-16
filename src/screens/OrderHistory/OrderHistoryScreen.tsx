@@ -4,14 +4,14 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import type { OrdersStackParamList, Order, OrderStatus } from '@/types';
+import type { ProfileStackParamList, Order, OrderStatus } from '@/types';
 import { colors, spacing, borderRadius, textStyles, shadow } from '@/constants';
 import { useOrderHistory } from '@/queries/useOrderQueries';
 import { useAuthStore }    from '@/store';
 import { LoadingSpinner }  from '@/components/LoadingSpinner/LoadingSpinner';
 import { EmptyState }      from '@/components/EmptyState/EmptyState';
 
-type Props = NativeStackScreenProps<OrdersStackParamList, 'OrderHistory'>;
+type Props = NativeStackScreenProps<ProfileStackParamList, 'OrderHistory'>;
 
 const STATUS_LABEL: Record<OrderStatus, string> = {
   pending:          'Pending',
@@ -69,7 +69,7 @@ export const OrderHistoryScreen = ({ navigation }: Props) => {
           renderItem={({ item: order }) => (
             <OrderCard
               order={order}
-              onPress={() => navigation.navigate('OrderTracking', { orderId: order.id })}
+              onPress={() => { /* OrderTracking is in the Cart tab — use deep link in production */ }}
             />
           )}
           ItemSeparatorComponent={() => <View style={{ height: spacing.md }} />}

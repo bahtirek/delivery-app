@@ -5,13 +5,13 @@ import {
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import type { OrdersStackParamList } from '@/types';
+import type { CartStackParamList } from '@/types';
 import { colors, spacing, borderRadius, textStyles, shadow } from '@/constants';
 import { useStore }       from '@/queries/useStoreQueries';
 import { usePlaceOrder }  from '@/queries/useOrderQueries';
 import { useCartStore, useAuthStore, useLocationStore } from '@/store';
 
-type Props = NativeStackScreenProps<OrdersStackParamList, 'Checkout'>;
+type Props = NativeStackScreenProps<CartStackParamList, 'Checkout'>;
 
 const TIP_OPTIONS = [0, 10, 15, 20];
 

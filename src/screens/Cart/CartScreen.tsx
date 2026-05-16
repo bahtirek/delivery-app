@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import type { OrdersStackParamList } from '@/types';
+import type { CartStackParamList } from '@/types';
 import { colors, spacing, borderRadius, textStyles, shadow } from '@/constants';
 import { useStore }      from '@/queries/useStoreQueries';
 import { useCartStore }  from '@/store';
@@ -13,7 +13,7 @@ import { CartItem }      from '@/components/CartItem/CartItem';
 import { EmptyState }    from '@/components/EmptyState/EmptyState';
 import { getStoreVisual } from '@/utils/storeVisuals';
 
-type Props = NativeStackScreenProps<OrdersStackParamList, 'Cart'>;
+type Props = NativeStackScreenProps<CartStackParamList, 'Cart'>;
 
 const TIP_OPTIONS = [0, 10, 15, 20];
 

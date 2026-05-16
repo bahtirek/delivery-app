@@ -25,23 +25,23 @@ export type SearchStackParamList = {
   CategoryResults: { category: string; storeId?: string };
 };
 
-// ─── Orders stack ────────────────────────────────────────────────────────────
+// ─── Cart stack (was Orders) — active ordering only ──────────────────────────
 
-export type OrdersStackParamList = {
+export type CartStackParamList = {
   Cart: undefined;
   Checkout: undefined;
   OrderTracking: { orderId: string };
-  OrderHistory: undefined;
 };
 
-// ─── Profile stack ───────────────────────────────────────────────────────────
+// ─── Profile stack — includes order history ───────────────────────────────────
 
 export type ProfileStackParamList = {
   Profile: undefined;
+  OrderHistory: undefined;
   Addresses: undefined;
-  AddAddress: { addressId?: string }; // undefined = new, defined = edit
+  AddAddress: { addressId?: string };
   Payment: undefined;
-  AddPayment: { paymentId?: string }; // undefined = new, defined = edit
+  AddPayment: { paymentId?: string };
 };
 
 // ─── Tab navigator ───────────────────────────────────────────────────────────
@@ -49,7 +49,7 @@ export type ProfileStackParamList = {
 export type TabParamList = {
   HomeTab: undefined;
   SearchTab: undefined;
-  OrdersTab: undefined;
+  CartTab: undefined;
   ProfileTab: undefined;
 };
 
@@ -58,8 +58,9 @@ export type TabParamList = {
 export type HomeScreenProps     = NativeStackScreenProps<HomeStackParamList, 'Home'>;
 export type StoreScreenProps    = NativeStackScreenProps<HomeStackParamList, 'Store'>;
 export type ProductDetailProps  = NativeStackScreenProps<HomeStackParamList, 'ProductDetail'>;
-export type CartScreenProps     = NativeStackScreenProps<OrdersStackParamList, 'Cart'>;
-export type CheckoutScreenProps = NativeStackScreenProps<OrdersStackParamList, 'Checkout'>;
-export type OrderTrackingProps  = NativeStackScreenProps<OrdersStackParamList, 'OrderTracking'>;
+export type CartScreenProps     = NativeStackScreenProps<CartStackParamList, 'Cart'>;
+export type CheckoutScreenProps = NativeStackScreenProps<CartStackParamList, 'Checkout'>;
+export type OrderTrackingProps  = NativeStackScreenProps<CartStackParamList, 'OrderTracking'>;
+export type OrderHistoryProps   = NativeStackScreenProps<ProfileStackParamList, 'OrderHistory'>;
 export type AddAddressProps     = NativeStackScreenProps<ProfileStackParamList, 'AddAddress'>;
 export type AddPaymentProps     = NativeStackScreenProps<ProfileStackParamList, 'AddPayment'>;

@@ -380,7 +380,7 @@ npx expo install react-native-maps
 | Cart | ✅ Built | Item list, tip selector, order summary, min-order guard |
 | Checkout | ✅ Built | Address, payment, items, tip, place order via usePlaceOrder |
 | OrderTracking | ✅ Built | Live polling, animated stepper, driver info, order summary |
-| OrderHistory | ✅ Built | Sorted orders list, status pills, tap to track |
+| OrderHistory | ✅ Built | In Profile tab — sorted list, status pills, pull to refresh |
 | AddAddress | ✅ Built | Add or edit address — label picker, street/city/ZIP, set-as-delivery toggle, delete |
 | AddPayment | ✅ Built | Add or edit card — live card preview, brand picker, set-default toggle, remove |
 | Profile | ✅ Built | Avatar, address, account links, sign out |

@@ -95,11 +95,7 @@ export const ProfileScreen = ({ navigation }: Props) => {
             <MenuRow
               icon="🛍️"
               label="Order history"
-              onPress={() => {
-                // Navigate to OrderHistory in the OrdersTab stack
-                // Cross-tab navigation requires a navigator ref; for now navigate within profile
-                Alert.alert('Order History', 'Tap the Orders tab to view your history.');
-              }}
+              onPress={() => navigation.navigate('OrderHistory')}
             />
           </View>
         </View>
@@ -108,7 +104,7 @@ export const ProfileScreen = ({ navigation }: Props) => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>App</Text>
           <View style={styles.card}>
-            <MenuRow icon="ℹ️" label="About Nearr" onPress={() => Alert.alert('Nearr', 'Version 1.0.0Local delivery within 0.5 miles.')} />
+            <MenuRow icon="ℹ️" label="About Nearr" onPress={() => Alert.alert('Nearr', 'Version 1.0.0 Local delivery within 0.5 miles.')} />
           </View>
         </View>
 
