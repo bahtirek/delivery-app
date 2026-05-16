@@ -3,7 +3,7 @@ import {
   View, Text, TouchableOpacity, ScrollView,
   StyleSheet, StatusBar,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { ProfileStackParamList } from '@/types';
 import { colors, spacing, borderRadius, textStyles, shadow } from '@/constants';
@@ -12,9 +12,10 @@ import { useAuthStore, useLocationStore } from '@/store';
 type Props = NativeStackScreenProps<ProfileStackParamList, 'Addresses'>;
 
 export const AddressesScreen = ({ navigation }: Props) => {
-  const user           = useAuthStore((s) => s.user);
+  const user            = useAuthStore((s) => s.user);
   const deliveryAddress = useLocationStore((s) => s.deliveryAddress);
-  const setDelivery    = useLocationStore((s) => s.setDeliveryAddress);
+  const setDelivery     = useLocationStore((s) => s.setDeliveryAddress);
+  const insets          = useSafeAreaInsets();
 
   const addresses = user?.addresses ?? [];
 
@@ -26,24 +27,38 @@ export const AddressesScreen = ({ navigation }: Props) => {
           <Text style={styles.backText}>←</Text>
         </TouchableOpacity>
         <Text style={styles.title}>Addresses</Text>
-        <View style={{ width: 36 }} />
+        <TouchableOpacity
+          style={styles.addBtn}
+          onPress={() => navigation.navigate('AddAddress', {})}
+        >
+          <Text style={styles.addBtnText}>＋ Add</Text>
+        </TouchableOpacity>
       </SafeAreaView>
 
-      <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={[styles.scrollContent, { paddingBottom: insets.bottom + spacing.xl }]}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Current delivery address */}
         {deliveryAddress && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Delivering to</Text>
             <View style={[styles.addressCard, styles.activeCard]}>
               <View style={styles.cardLeft}>
-                <Text style={styles.activeIndicator}>●</Text>
+                <Text style={styles.activeDot}>●</Text>
                 <View style={styles.addressInfo}>
                   <Text style={styles.addressLabel}>{deliveryAddress.label}</Text>
                   <Text style={styles.addressStreet}>{deliveryAddress.street}</Text>
                   <Text style={styles.addressCity}>{deliveryAddress.city}, {deliveryAddress.zip}</Text>
                 </View>
               </View>
+              <TouchableOpacity
+                style={styles.editBtn}
+                onPress={() => navigation.navigate('AddAddress', { addressId: deliveryAddress.id })}
+              >
+                <Text style={styles.editBtnText}>Edit</Text>
+              </TouchableOpacity>
             </View>
           </View>
         )}
@@ -52,9 +67,15 @@ export const AddressesScreen = ({ navigation }: Props) => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Saved addresses</Text>
           {addresses.length === 0 ? (
-            <View style={styles.emptyCard}>
-              <Text style={styles.emptyText}>No saved addresses yet.</Text>
-            </View>
+            <TouchableOpacity
+              style={styles.emptyCard}
+              onPress={() => navigation.navigate('AddAddress', {})}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.emptyEmoji}>📍</Text>
+              <Text style={styles.emptyTitle}>No saved addresses</Text>
+              <Text style={styles.emptyLink}>Tap to add one →</Text>
+            </TouchableOpacity>
           ) : (
             <View style={styles.addressList}>
               {addresses.map((addr) => {
@@ -76,19 +97,18 @@ export const AddressesScreen = ({ navigation }: Props) => {
                         <Text style={styles.addressCity}>{addr.city}, {addr.zip}</Text>
                       </View>
                     </View>
-                    {isActive && (
-                      <View style={styles.selectedBadge}>
-                        <Text style={styles.selectedBadgeText}>Active</Text>
-                      </View>
-                    )}
+                    <TouchableOpacity
+                      style={styles.editBtn}
+                      onPress={() => navigation.navigate('AddAddress', { addressId: addr.id })}
+                    >
+                      <Text style={styles.editBtnText}>Edit</Text>
+                    </TouchableOpacity>
                   </TouchableOpacity>
                 );
               })}
             </View>
           )}
         </View>
-
-        <View style={{ height: spacing.xxl }} />
       </ScrollView>
     </View>
   );
@@ -102,9 +122,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1, borderBottomColor: colors.border,
     backgroundColor: colors.background,
   },
-  backBtn:  { width: 36, padding: spacing.xs },
-  backText: { fontSize: 22, color: colors.textPrimary },
-  title:    { ...textStyles.h2, color: colors.textPrimary },
+  backBtn:    { width: 44, padding: spacing.xs },
+  backText:   { fontSize: 22, color: colors.textPrimary },
+  title:      { ...textStyles.h2, color: colors.textPrimary, flex: 1, textAlign: 'center' },
+  addBtn:     { paddingHorizontal: spacing.sm, paddingVertical: spacing.xs },
+  addBtnText: { ...textStyles.label, color: colors.primary },
 
   scroll:        { flex: 1 },
   scrollContent: { padding: spacing.md, gap: spacing.lg },
@@ -114,40 +136,28 @@ const styles = StyleSheet.create({
 
   addressCard: {
     backgroundColor: colors.backgroundCard,
-    borderRadius: borderRadius.lg,
-    padding: spacing.md,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderWidth: 1.5,
-    borderColor: colors.border,
-    ...shadow.card,
+    borderRadius: borderRadius.lg, padding: spacing.md,
+    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+    borderWidth: 1.5, borderColor: colors.border, ...shadow.card,
   },
-  activeCard: { borderColor: colors.primary, backgroundColor: colors.primarySubtle },
-
-  cardLeft:      { flexDirection: 'row', gap: spacing.md, flex: 1 },
-  activeIndicator:{ fontSize: 16, color: colors.primary, marginTop: 2 },
+  activeCard:    { borderColor: colors.primary, backgroundColor: colors.primarySubtle },
+  cardLeft:      { flexDirection: 'row', gap: spacing.md, flex: 1, alignItems: 'flex-start' },
   dot:           { fontSize: 16, color: colors.textDisabled, marginTop: 2 },
-  activeDot:     { color: colors.primary },
+  activeDot:     { fontSize: 16, color: colors.primary, marginTop: 2 },
   addressInfo:   { flex: 1, gap: 2 },
   addressLabel:  { ...textStyles.label,   color: colors.textPrimary },
   addressStreet: { ...textStyles.body,    color: colors.textPrimary },
   addressCity:   { ...textStyles.caption, color: colors.textSecondary },
-
-  selectedBadge: {
-    backgroundColor: colors.primary,
-    borderRadius: borderRadius.full,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 3,
-  },
-  selectedBadgeText: { ...textStyles.labelSm, color: colors.textInverse },
+  editBtn:       { paddingLeft: spacing.sm, paddingVertical: spacing.xs },
+  editBtnText:   { ...textStyles.label, color: colors.primary },
 
   emptyCard: {
     backgroundColor: colors.backgroundCard,
-    borderRadius: borderRadius.lg,
-    padding: spacing.lg,
-    alignItems: 'center',
-    ...shadow.card,
+    borderRadius: borderRadius.lg, padding: spacing.lg,
+    alignItems: 'center', gap: spacing.xs,
+    borderWidth: 2, borderColor: colors.border, borderStyle: 'dashed',
   },
-  emptyText: { ...textStyles.body, color: colors.textSecondary },
+  emptyEmoji: { fontSize: 36 },
+  emptyTitle: { ...textStyles.h3,    color: colors.textSecondary },
+  emptyLink:  { ...textStyles.label, color: colors.primary },
 });

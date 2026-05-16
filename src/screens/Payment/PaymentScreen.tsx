@@ -3,7 +3,7 @@ import {
   View, Text, TouchableOpacity, ScrollView,
   StyleSheet, StatusBar,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { ProfileStackParamList, PaymentMethod } from '@/types';
 import { colors, spacing, borderRadius, textStyles, shadow } from '@/constants';
@@ -11,13 +11,10 @@ import { useAuthStore } from '@/store';
 
 type Props = NativeStackScreenProps<ProfileStackParamList, 'Payment'>;
 
-const CARD_BRAND_EMOJI: Record<string, string> = {
-  Visa: '💳', Mastercard: '💳', Amex: '💳', default: '💳',
-};
-
 export const PaymentScreen = ({ navigation }: Props) => {
-  const user = useAuthStore((s) => s.user);
+  const user    = useAuthStore((s) => s.user);
   const methods = user?.paymentMethods ?? [];
+  const insets  = useSafeAreaInsets();
 
   return (
     <View style={styles.screen}>
@@ -26,91 +23,92 @@ export const PaymentScreen = ({ navigation }: Props) => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
           <Text style={styles.backText}>←</Text>
         </TouchableOpacity>
-        <Text style={styles.title}>Payment methods</Text>
-        <View style={{ width: 36 }} />
+        <Text style={styles.title}>Payment</Text>
+        <TouchableOpacity
+          style={styles.addBtn}
+          onPress={() => navigation.navigate('AddPayment', {})}
+        >
+          <Text style={styles.addBtnText}>＋ Add</Text>
+        </TouchableOpacity>
       </SafeAreaView>
 
-      <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={[styles.scrollContent, { paddingBottom: insets.bottom + spacing.xl }]}
+        showsVerticalScrollIndicator={false}
+      >
         {methods.length === 0 ? (
-          <View style={styles.emptyCard}>
+          <TouchableOpacity
+            style={styles.emptyCard}
+            onPress={() => navigation.navigate('AddPayment', {})}
+            activeOpacity={0.8}
+          >
             <Text style={styles.emptyEmoji}>💳</Text>
             <Text style={styles.emptyTitle}>No payment methods</Text>
-            <Text style={styles.emptySub}>Add a card to checkout faster.</Text>
-          </View>
+            <Text style={styles.emptyLink}>Tap to add a card →</Text>
+          </TouchableOpacity>
         ) : (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Saved cards</Text>
             <View style={styles.cardList}>
               {methods.map((method) => (
-                <PaymentCard key={method.id} method={method} />
+                <PaymentCard
+                  key={method.id}
+                  method={method}
+                  onEdit={() => navigation.navigate('AddPayment', { paymentId: method.id })}
+                />
               ))}
             </View>
           </View>
         )}
 
-        {/* Add card CTA */}
-        <TouchableOpacity style={styles.addCardBtn} activeOpacity={0.8}>
+        {/* Add card button */}
+        <TouchableOpacity
+          style={styles.addCardBtn}
+          onPress={() => navigation.navigate('AddPayment', {})}
+          activeOpacity={0.8}
+        >
           <Text style={styles.addCardIcon}>＋</Text>
           <Text style={styles.addCardText}>Add a new card</Text>
         </TouchableOpacity>
 
-        {/* Info note */}
         <View style={styles.infoNote}>
           <Text style={styles.infoNoteText}>
-            🔒 Payment info is stored securely. Cards are never shared with stores.
+            🔒 Card details are stored securely. Never shared with stores or drivers.
           </Text>
         </View>
-
-        <View style={{ height: spacing.xxl }} />
       </ScrollView>
     </View>
   );
 };
 
-const PaymentCard = ({ method }: { method: PaymentMethod }) => {
-  const emoji = CARD_BRAND_EMOJI[method.brand ?? ''] ?? CARD_BRAND_EMOJI.default;
-
-  return (
-    <View style={[cardStyles.card, method.isDefault && cardStyles.defaultCard]}>
-      <Text style={cardStyles.emoji}>{emoji}</Text>
-      <View style={cardStyles.info}>
-        <Text style={cardStyles.brand}>{method.brand ?? 'Card'} ···· {method.last4 ?? '****'}</Text>
-        {method.isDefault && <Text style={cardStyles.defaultLabel}>Default</Text>}
-      </View>
-      {method.isDefault && (
-        <View style={cardStyles.defaultBadge}>
-          <Text style={cardStyles.defaultBadgeText}>Default</Text>
-        </View>
-      )}
+const PaymentCard = ({ method, onEdit }: { method: PaymentMethod; onEdit: () => void }) => (
+  <View style={[cardStyles.card, method.isDefault && cardStyles.defaultCard]}>
+    <Text style={cardStyles.emoji}>💳</Text>
+    <View style={cardStyles.info}>
+      <Text style={cardStyles.brand}>{method.brand ?? 'Card'} ···· {method.last4 ?? '****'}</Text>
+      {method.isDefault && <Text style={cardStyles.defaultLabel}>Default card</Text>}
     </View>
-  );
-};
+    <TouchableOpacity style={cardStyles.editBtn} onPress={onEdit}>
+      <Text style={cardStyles.editText}>Edit</Text>
+    </TouchableOpacity>
+  </View>
+);
 
 const cardStyles = StyleSheet.create({
   card: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
+    flexDirection: 'row', alignItems: 'center', gap: spacing.md,
     backgroundColor: colors.backgroundCard,
-    borderRadius: borderRadius.lg,
-    padding: spacing.md,
-    borderWidth: 1.5,
-    borderColor: colors.border,
-    ...shadow.card,
+    borderRadius: borderRadius.lg, padding: spacing.md,
+    borderWidth: 1.5, borderColor: colors.border, ...shadow.card,
   },
   defaultCard: { borderColor: colors.primary, backgroundColor: colors.primarySubtle },
-  emoji:        { fontSize: 28 },
-  info:         { flex: 1, gap: 2 },
-  brand:        { ...textStyles.h3, color: colors.textPrimary },
-  defaultLabel: { ...textStyles.caption, color: colors.primary },
-  defaultBadge: {
-    backgroundColor: colors.primary,
-    borderRadius: borderRadius.full,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 3,
-  },
-  defaultBadgeText: { ...textStyles.labelSm, color: colors.textInverse },
+  emoji:       { fontSize: 28 },
+  info:        { flex: 1, gap: 2 },
+  brand:       { ...textStyles.h3,      color: colors.textPrimary },
+  defaultLabel:{ ...textStyles.caption, color: colors.primary },
+  editBtn:     { paddingLeft: spacing.sm, paddingVertical: spacing.xs },
+  editText:    { ...textStyles.label, color: colors.primary },
 });
 
 const styles = StyleSheet.create({
@@ -121,9 +119,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1, borderBottomColor: colors.border,
     backgroundColor: colors.background,
   },
-  backBtn:  { width: 36, padding: spacing.xs },
-  backText: { fontSize: 22, color: colors.textPrimary },
-  title:    { ...textStyles.h2, color: colors.textPrimary },
+  backBtn:    { width: 44, padding: spacing.xs },
+  backText:   { fontSize: 22, color: colors.textPrimary },
+  title:      { ...textStyles.h2, color: colors.textPrimary, flex: 1, textAlign: 'center' },
+  addBtn:     { paddingHorizontal: spacing.sm, paddingVertical: spacing.xs },
+  addBtnText: { ...textStyles.label, color: colors.primary },
 
   scroll:        { flex: 1 },
   scrollContent: { padding: spacing.md, gap: spacing.lg },
@@ -131,37 +131,24 @@ const styles = StyleSheet.create({
   sectionTitle:  { ...textStyles.h3, color: colors.textSecondary },
   cardList:      { gap: spacing.sm },
 
+  emptyCard: {
+    backgroundColor: colors.backgroundCard, borderRadius: borderRadius.lg,
+    padding: spacing.xl, alignItems: 'center', gap: spacing.xs,
+    borderWidth: 2, borderColor: colors.border, borderStyle: 'dashed',
+  },
+  emptyEmoji: { fontSize: 36 },
+  emptyTitle: { ...textStyles.h3,    color: colors.textSecondary },
+  emptyLink:  { ...textStyles.label, color: colors.primary },
+
   addCardBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: spacing.sm,
-    borderRadius: borderRadius.lg,
-    borderWidth: 2,
-    borderColor: colors.border,
-    borderStyle: 'dashed',
-    padding: spacing.md,
-    backgroundColor: colors.backgroundCard,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+    gap: spacing.sm, borderRadius: borderRadius.lg,
+    borderWidth: 2, borderColor: colors.border, borderStyle: 'dashed',
+    padding: spacing.md, backgroundColor: colors.backgroundCard,
   },
   addCardIcon: { fontSize: 20, color: colors.primary },
   addCardText: { ...textStyles.label, color: colors.primary },
 
-  emptyCard: {
-    backgroundColor: colors.backgroundCard,
-    borderRadius: borderRadius.lg,
-    padding: spacing.xl,
-    alignItems: 'center',
-    gap: spacing.sm,
-    ...shadow.card,
-  },
-  emptyEmoji: { fontSize: 40 },
-  emptyTitle: { ...textStyles.h3,  color: colors.textPrimary },
-  emptySub:   { ...textStyles.body, color: colors.textSecondary },
-
-  infoNote: {
-    backgroundColor: colors.surface,
-    borderRadius: borderRadius.md,
-    padding: spacing.md,
-  },
+  infoNote: { backgroundColor: colors.surface, borderRadius: borderRadius.md, padding: spacing.md },
   infoNoteText: { ...textStyles.caption, color: colors.textSecondary, lineHeight: 18, textAlign: 'center' },
 });

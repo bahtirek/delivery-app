@@ -39,7 +39,9 @@ export type OrdersStackParamList = {
 export type ProfileStackParamList = {
   Profile: undefined;
   Addresses: undefined;
+  AddAddress: { addressId?: string }; // undefined = new, defined = edit
   Payment: undefined;
+  AddPayment: { paymentId?: string }; // undefined = new, defined = edit
 };
 
 // ─── Tab navigator ───────────────────────────────────────────────────────────
@@ -59,3 +61,5 @@ export type ProductDetailProps  = NativeStackScreenProps<HomeStackParamList, 'Pr
 export type CartScreenProps     = NativeStackScreenProps<OrdersStackParamList, 'Cart'>;
 export type CheckoutScreenProps = NativeStackScreenProps<OrdersStackParamList, 'Checkout'>;
 export type OrderTrackingProps  = NativeStackScreenProps<OrdersStackParamList, 'OrderTracking'>;
+export type AddAddressProps     = NativeStackScreenProps<ProfileStackParamList, 'AddAddress'>;
+export type AddPaymentProps     = NativeStackScreenProps<ProfileStackParamList, 'AddPayment'>;

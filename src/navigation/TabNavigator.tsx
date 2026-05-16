@@ -23,6 +23,8 @@ import { OrderHistoryScreen }      from '@/screens/OrderHistory/OrderHistoryScre
 import { ProfileScreen }           from '@/screens/Profile/ProfileScreen';
 import { AddressesScreen }         from '@/screens/Addresses/AddressesScreen';
 import { PaymentScreen }           from '@/screens/Payment/PaymentScreen';
+import { AddAddressScreen }         from '@/screens/AddAddress/AddAddressScreen';
+import { AddPaymentScreen }         from '@/screens/AddPayment/AddPaymentScreen';
 
 // ─── Stacks ───────────────────────────────────────────────────────────────────
 const HomeStack    = createNativeStackNavigator<HomeStackParamList>();
@@ -56,9 +58,11 @@ const OrdersNavigator = () => (
 
 const ProfileNavigator = () => (
   <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
-    <ProfileStack.Screen name="Profile"   component={ProfileScreen} />
-    <ProfileStack.Screen name="Addresses" component={AddressesScreen} />
-    <ProfileStack.Screen name="Payment"   component={PaymentScreen} />
+    <ProfileStack.Screen name="Profile"    component={ProfileScreen} />
+    <ProfileStack.Screen name="Addresses"  component={AddressesScreen} />
+    <ProfileStack.Screen name="AddAddress" component={AddAddressScreen} />
+    <ProfileStack.Screen name="Payment"    component={PaymentScreen} />
+    <ProfileStack.Screen name="AddPayment" component={AddPaymentScreen} />
   </ProfileStack.Navigator>
 );
 

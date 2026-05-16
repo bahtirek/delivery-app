@@ -8,7 +8,7 @@
 | Routing | React Native Navigation (not Expo Router) |
 | Server State | React Query (TanStack Query v5) |
 | Client/UI State | Zustand v4 |
-| Mock Backend | JSON Server (`db.json`, port 3000) |
+| Mock Backend | JSON Server (`mock/db.json`, port 3001) |
 | Language | TypeScript (strict mode) |
 
 ---
@@ -21,9 +21,12 @@
 ├── package.json
 ├── babel.config.js         # @/ path alias via babel-plugin-module-resolver
 ├── tsconfig.json           # Strict mode + @/ alias paths
-├── db.json                 # JSON Server database (stores, products, orders, users)
 ├── SETUP.md                # Getting started guide
-├── App.tsx           # Entry point — QueryClientProvider + RootNavigator
+├── app/
+│   └── index.tsx           # Entry point — QueryClientProvider + RootNavigator
+├── mock/
+│   ├── db.json             # JSON Server database (stores, products, orders, users)
+│   └── package.json        # Run with: cd mock && npm start
 ├── assets/
 │   ├── fonts/
 │   ├── icons/
@@ -62,7 +65,8 @@
     │   ├── Header/
     │   ├── LoadingSpinner/
     │   ├── ProductCard/
-    │   └── StoreCard/
+    │   ├── StoreCard/
+    │   └── StoreMapView/       # MapView + pins + radius circle + animated store card
     │       # Each component folder: [Name].tsx + [Name].styles.ts
     ├── store/                    # Zustand stores (client state only)
     │   ├── useAuthStore.ts
@@ -332,6 +336,34 @@ import { useAuthStore } from '../../store';
 
 ---
 
+## Map View (Search screen)
+
+The Search screen has a **List / Map toggle** in the header. In map mode:
+
+- `react-native-maps` (`MapView`, `Marker`, `Circle`) renders the map.
+- A semi-transparent orange `Circle` shows the 0.5-mile delivery radius, centered on `useLocationStore.deliveryAddress`.
+- Each store is a custom `Marker` — colored by type (orange = convenience, green = grocery, red = restaurant), greyed out if closed.
+- Tapping a pin springs up a `StoreCalloutCard` from the bottom with store name, rating, ETA, delivery fee, and a "View store" button.
+- Tapping the map background dismisses the card.
+- A recenter button (top-right) animates back to the user's delivery address.
+- A legend (top-left) explains the pin colors.
+- The blue user location dot uses `showsUserLocation` on `MapView`.
+
+**Install:**
+```bash
+npx expo install react-native-maps
+```
+
+**Android:** Add your Google Maps API key to `app.json` under `android.config.googleMaps.apiKey`.
+**iOS:** Works with Apple Maps by default (`PROVIDER_DEFAULT`). Optionally add a Google Maps key for Google Maps on iOS.
+
+**`StoreMapView` component** lives in `src/components/StoreMapView/` and takes:
+- `stores: Store[]` — all stores to pin
+- `userLat / userLng` — center of the radius circle (from `useLocationStore`)
+- `onStorePress: (store: Store) => void` — called when "View store" is tapped
+
+---
+
 ## Screen Build Status
 
 | Screen | Status | Notes |
@@ -343,15 +375,17 @@ import { useAuthStore } from '../../store';
 | Home | ✅ Built | Orange header, floating search, filter chips, open/closed store list |
 | Store | ✅ Built | Orange hero, sticky category tabs, popular row, product grid, floating cart bar |
 | ProductDetail | ✅ Built | Hero illustration, quantity selector, add-to-cart CTA, cross-store alert |
-| Search | 🔲 Pending | |
-| CategoryResults | 🔲 Pending | |
+| Search | ✅ Built | Live store search, browse-by-category grid, List/Map toggle |
+| CategoryResults | ✅ Built | Products by category across all relevant stores |
 | Cart | ✅ Built | Item list, tip selector, order summary, min-order guard |
 | Checkout | ✅ Built | Address, payment, items, tip, place order via usePlaceOrder |
 | OrderTracking | ✅ Built | Live polling, animated stepper, driver info, order summary |
-| OrderHistory | 🔲 Pending | |
-| Profile | 🔲 Pending | |
-| Addresses | 🔲 Pending | |
-| Payment | 🔲 Pending | |
+| OrderHistory | ✅ Built | Sorted orders list, status pills, tap to track |
+| AddAddress | ✅ Built | Add or edit address — label picker, street/city/ZIP, set-as-delivery toggle, delete |
+| AddPayment | ✅ Built | Add or edit card — live card preview, brand picker, set-default toggle, remove |
+| Profile | ✅ Built | Avatar, address, account links, sign out |
+| Addresses | ✅ Built | Saved addresses, tap to set active, Edit button per row, ＋ Add in header |
+| Payment | ✅ Built | Saved cards, default badge, Edit per card, ＋ Add in header |
 
 ---
 

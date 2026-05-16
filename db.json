@@ -15,6 +15,16 @@
           "lat": 40.7128,
           "lng": -74.006,
           "isDefault": true
+        },
+        {
+          "id": "a-1778958579573",
+          "label": "Home",
+          "street": "1234 Added Tsreet",
+          "city": "Palm Beach",
+          "zip": "12345",
+          "lat": 40.7128,
+          "lng": -74.006,
+          "isDefault": true
         }
       ],
       "paymentMethods": [
@@ -24,6 +34,13 @@
           "brand": "Visa",
           "last4": "4242",
           "isDefault": true
+        },
+        {
+          "id": "pm-1778958157119",
+          "type": "card",
+          "brand": "Visa",
+          "last4": "6785",
+          "isDefault": false
         }
       ]
     }
@@ -507,6 +524,39 @@
       "driverName": "Your driver",
       "driverPhone": "555-0100",
       "id": "h2XUTTV"
+    },
+    {
+      "userId": "u1",
+      "storeId": "s2",
+      "storeName": "Fresh & Green Grocery",
+      "status": "pending",
+      "items": [
+        {
+          "productId": "p8",
+          "name": "Whole Milk Gallon",
+          "price": 4.29,
+          "quantity": 3
+        }
+      ],
+      "subtotal": 12.870000000000001,
+      "deliveryFee": 2.49,
+      "tip": 1.93,
+      "total": 17.29,
+      "deliveryAddress": {
+        "street": "1234 Added Tsreet",
+        "city": "Palm Beach",
+        "zip": "12345"
+      },
+      "paymentMethod": {
+        "brand": "Visa",
+        "last4": "4242"
+      },
+      "createdAt": "2026-05-16T19:11:32.491Z",
+      "deliveredAt": null,
+      "estimatedMinutes": 18,
+      "driverName": "Your driver",
+      "driverPhone": "555-0100",
+      "id": "FBxGLyw"
     }
   ]
 }
