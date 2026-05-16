@@ -1,0 +1,206 @@
+{
+  "users": [
+    {
+      "id": "u1",
+      "name": "Alex Johnson",
+      "email": "alex@example.com",
+      "phone": "555-0101",
+      "addresses": [
+        {
+          "id": "a1",
+          "label": "Home",
+          "street": "123 Main St",
+          "city": "Springfield",
+          "zip": "12345",
+          "lat": 40.7128,
+          "lng": -74.006,
+          "isDefault": true
+        }
+      ],
+      "paymentMethods": [
+        {
+          "id": "pm1",
+          "type": "card",
+          "brand": "Visa",
+          "last4": "4242",
+          "isDefault": true
+        }
+      ]
+    }
+  ],
+
+  "stores": [
+    {
+      "id": "s1",
+      "name": "Quick Mart",
+      "type": "convenience",
+      "description": "Your neighborhood convenience store",
+      "image": "https://placehold.co/400x200/orange/white?text=Quick+Mart",
+      "rating": 4.5,
+      "reviewCount": 128,
+      "deliveryFeeFlat": 1.99,
+      "deliveryFeePercent": null,
+      "minOrder": 5.00,
+      "estimatedMinutes": 12,
+      "distanceMiles": 0.3,
+      "isOpen": true,
+      "categories": ["snacks", "drinks", "household", "frozen"],
+      "lat": 40.7135,
+      "lng": -74.0046,
+      "address": "456 Oak Ave, Springfield"
+    },
+    {
+      "id": "s2",
+      "name": "Fresh & Green Grocery",
+      "type": "grocery",
+      "description": "Fresh produce, dairy, and everyday essentials",
+      "image": "https://placehold.co/400x200/green/white?text=Fresh+%26+Green",
+      "rating": 4.7,
+      "reviewCount": 312,
+      "deliveryFeeFlat": 2.49,
+      "deliveryFeePercent": null,
+      "minOrder": 10.00,
+      "estimatedMinutes": 18,
+      "distanceMiles": 0.4,
+      "isOpen": true,
+      "categories": ["produce", "dairy", "bakery", "meat", "pantry", "drinks"],
+      "lat": 40.7142,
+      "lng": -74.0061,
+      "address": "789 Elm St, Springfield"
+    },
+    {
+      "id": "s3",
+      "name": "Burger Barn",
+      "type": "restaurant",
+      "description": "Juicy burgers, crispy fries, and thick shakes",
+      "image": "https://placehold.co/400x200/red/white?text=Burger+Barn",
+      "rating": 4.3,
+      "reviewCount": 87,
+      "deliveryFeeFlat": null,
+      "deliveryFeePercent": 10,
+      "minOrder": 8.00,
+      "estimatedMinutes": 22,
+      "distanceMiles": 0.5,
+      "isOpen": true,
+      "categories": ["burgers", "sides", "drinks", "desserts"],
+      "lat": 40.7119,
+      "lng": -74.0072,
+      "address": "321 Pine Rd, Springfield"
+    },
+    {
+      "id": "s4",
+      "name": "Spice Garden",
+      "type": "restaurant",
+      "description": "Authentic Indian and Thai cuisine",
+      "image": "https://placehold.co/400x200/purple/white?text=Spice+Garden",
+      "rating": 4.8,
+      "reviewCount": 204,
+      "deliveryFeeFlat": 1.49,
+      "deliveryFeePercent": null,
+      "minOrder": 12.00,
+      "estimatedMinutes": 25,
+      "distanceMiles": 0.4,
+      "isOpen": false,
+      "categories": ["indian", "thai", "rice", "noodles", "drinks"],
+      "lat": 40.7131,
+      "lng": -74.0053,
+      "address": "99 Curry Lane, Springfield"
+    }
+  ],
+
+  "products": [
+    { "id": "p1",  "storeId": "s1", "name": "Lay's Classic Chips",    "category": "snacks",    "price": 2.99, "image": "https://placehold.co/200x200/yellow/black?text=Chips",     "description": "Original salted potato chips, 8oz bag", "inStock": true,  "popular": true  },
+    { "id": "p2",  "storeId": "s1", "name": "Red Bull Energy Drink",  "category": "drinks",    "price": 3.49, "image": "https://placehold.co/200x200/blue/white?text=Red+Bull",   "description": "250ml energy drink, original flavor",  "inStock": true,  "popular": true  },
+    { "id": "p3",  "storeId": "s1", "name": "Snickers Bar",           "category": "snacks",    "price": 1.79, "image": "https://placehold.co/200x200/brown/white?text=Snickers",  "description": "Chocolate, caramel and nougat bar",    "inStock": true,  "popular": false },
+    { "id": "p4",  "storeId": "s1", "name": "Tide Pods 10-pack",      "category": "household", "price": 7.99, "image": "https://placehold.co/200x200/orange/white?text=Tide",     "description": "Laundry detergent pods, fresh scent",  "inStock": true,  "popular": false },
+    { "id": "p5",  "storeId": "s1", "name": "Ben & Jerry's Pint",     "category": "frozen",    "price": 5.49, "image": "https://placehold.co/200x200/teal/white?text=Ice+Cream",  "description": "Chunky Monkey ice cream, 16oz",        "inStock": false, "popular": true  },
+    { "id": "p6",  "storeId": "s1", "name": "Gatorade Blue",          "category": "drinks",    "price": 2.29, "image": "https://placehold.co/200x200/blue/white?text=Gatorade",   "description": "Cool Blue sports drink, 32oz",         "inStock": true,  "popular": false },
+
+    { "id": "p7",  "storeId": "s2", "name": "Organic Bananas",        "category": "produce",   "price": 1.49, "image": "https://placehold.co/200x200/yellow/black?text=Bananas",  "description": "Per pound, organic certified",         "inStock": true,  "popular": true  },
+    { "id": "p8",  "storeId": "s2", "name": "Whole Milk Gallon",      "category": "dairy",     "price": 4.29, "image": "https://placehold.co/200x200/white/black?text=Milk",      "description": "Farm fresh whole milk, 1 gallon",      "inStock": true,  "popular": true  },
+    { "id": "p9",  "storeId": "s2", "name": "Sourdough Loaf",         "category": "bakery",    "price": 5.99, "image": "https://placehold.co/200x200/tan/black?text=Bread",       "description": "Freshly baked sourdough bread",        "inStock": true,  "popular": false },
+    { "id": "p10", "storeId": "s2", "name": "Chicken Breast 1lb",     "category": "meat",      "price": 6.99, "image": "https://placehold.co/200x200/pink/black?text=Chicken",    "description": "Boneless skinless chicken breast",     "inStock": true,  "popular": false },
+    { "id": "p11", "storeId": "s2", "name": "Pasta Sauce 24oz",       "category": "pantry",    "price": 3.79, "image": "https://placehold.co/200x200/red/white?text=Sauce",       "description": "Marinara pasta sauce, no added sugar", "inStock": true,  "popular": false },
+    { "id": "p12", "storeId": "s2", "name": "Greek Yogurt 32oz",      "category": "dairy",     "price": 5.29, "image": "https://placehold.co/200x200/white/black?text=Yogurt",    "description": "Plain whole milk Greek yogurt",        "inStock": true,  "popular": true  },
+
+    { "id": "p13", "storeId": "s3", "name": "Classic Cheeseburger",   "category": "burgers",   "price": 8.99, "image": "https://placehold.co/200x200/orange/white?text=Burger",   "description": "Beef patty, cheddar, lettuce, tomato", "inStock": true,  "popular": true  },
+    { "id": "p14", "storeId": "s3", "name": "Double Smash Burger",    "category": "burgers",   "price": 12.99,"image": "https://placehold.co/200x200/red/white?text=Double",      "description": "Two smash patties, special sauce",     "inStock": true,  "popular": true  },
+    { "id": "p15", "storeId": "s3", "name": "Crispy Fries",           "category": "sides",     "price": 3.99, "image": "https://placehold.co/200x200/yellow/black?text=Fries",    "description": "Golden crispy fries, large",           "inStock": true,  "popular": true  },
+    { "id": "p16", "storeId": "s3", "name": "Vanilla Milkshake",      "category": "drinks",    "price": 5.49, "image": "https://placehold.co/200x200/white/black?text=Shake",     "description": "Thick hand-spun vanilla shake",        "inStock": true,  "popular": false },
+    { "id": "p17", "storeId": "s3", "name": "Chocolate Brownie",      "category": "desserts",  "price": 3.49, "image": "https://placehold.co/200x200/brown/white?text=Brownie",   "description": "Warm fudge brownie with ice cream",    "inStock": false, "popular": false },
+
+    { "id": "p18", "storeId": "s4", "name": "Butter Chicken",         "category": "indian",    "price": 14.99,"image": "https://placehold.co/200x200/orange/white?text=Butter+Ch","description": "Creamy tomato-based chicken curry",    "inStock": true,  "popular": true  },
+    { "id": "p19", "storeId": "s4", "name": "Pad Thai Noodles",       "category": "thai",      "price": 13.49,"image": "https://placehold.co/200x200/yellow/black?text=Pad+Thai", "description": "Rice noodles, shrimp, peanuts, egg",   "inStock": true,  "popular": true  },
+    { "id": "p20", "storeId": "s4", "name": "Garlic Naan 2pc",        "category": "indian",    "price": 4.49, "image": "https://placehold.co/200x200/tan/black?text=Naan",        "description": "Fresh baked garlic naan bread",        "inStock": true,  "popular": false }
+  ],
+
+  "orders": [
+    {
+      "id": "o1",
+      "userId": "u1",
+      "storeId": "s3",
+      "storeName": "Burger Barn",
+      "status": "delivered",
+      "items": [
+        { "productId": "p13", "name": "Classic Cheeseburger", "price": 8.99, "quantity": 2 },
+        { "productId": "p15", "name": "Crispy Fries",         "price": 3.99, "quantity": 1 }
+      ],
+      "subtotal": 21.97,
+      "deliveryFee": 2.20,
+      "tip": 3.00,
+      "total": 27.17,
+      "deliveryAddress": { "street": "123 Main St", "city": "Springfield", "zip": "12345" },
+      "paymentMethod": { "brand": "Visa", "last4": "4242" },
+      "createdAt": "2026-05-10T18:32:00Z",
+      "deliveredAt": "2026-05-10T18:54:00Z",
+      "estimatedMinutes": 22,
+      "driverName": "Marcus",
+      "driverPhone": "555-0199"
+    },
+    {
+      "id": "o2",
+      "userId": "u1",
+      "storeId": "s1",
+      "storeName": "Quick Mart",
+      "status": "delivered",
+      "items": [
+        { "productId": "p1", "name": "Lay's Classic Chips",   "price": 2.99, "quantity": 1 },
+        { "productId": "p2", "name": "Red Bull Energy Drink", "price": 3.49, "quantity": 2 }
+      ],
+      "subtotal": 9.97,
+      "deliveryFee": 1.99,
+      "tip": 2.00,
+      "total": 13.96,
+      "deliveryAddress": { "street": "123 Main St", "city": "Springfield", "zip": "12345" },
+      "paymentMethod": { "brand": "Visa", "last4": "4242" },
+      "createdAt": "2026-05-12T14:10:00Z",
+      "deliveredAt": "2026-05-12T14:22:00Z",
+      "estimatedMinutes": 12,
+      "driverName": "Priya",
+      "driverPhone": "555-0188"
+    },
+    {
+      "id": "o3",
+      "userId": "u1",
+      "storeId": "s2",
+      "storeName": "Fresh & Green Grocery",
+      "status": "out_for_delivery",
+      "items": [
+        { "productId": "p7",  "name": "Organic Bananas",  "price": 1.49, "quantity": 1 },
+        { "productId": "p8",  "name": "Whole Milk Gallon","price": 4.29, "quantity": 1 },
+        { "productId": "p12", "name": "Greek Yogurt 32oz","price": 5.29, "quantity": 2 }
+      ],
+      "subtotal": 16.36,
+      "deliveryFee": 2.49,
+      "tip": 3.00,
+      "total": 21.85,
+      "deliveryAddress": { "street": "123 Main St", "city": "Springfield", "zip": "12345" },
+      "paymentMethod": { "brand": "Visa", "last4": "4242" },
+      "createdAt": "2026-05-14T10:05:00Z",
+      "deliveredAt": null,
+      "estimatedMinutes": 18,
+      "driverName": "Jordan",
+      "driverPhone": "555-0177"
+    }
+  ]
+}

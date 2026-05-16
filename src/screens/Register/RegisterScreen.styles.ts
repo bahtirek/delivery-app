@@ -1,0 +1,56 @@
+import { StyleSheet } from 'react-native';
+import { colors, spacing, fontSize, borderRadius } from '@/constants';
+
+export const styles = StyleSheet.create({
+  flex: { flex: 1, backgroundColor: colors.background },
+  container: {
+    flexGrow: 1,
+    paddingHorizontal: spacing.lg,
+    paddingTop: 60,
+    paddingBottom: spacing.xl,
+  },
+  backButton: { marginBottom: spacing.lg },
+  backText: { fontSize: fontSize.md, color: colors.primary, fontWeight: '500' },
+  header: { marginBottom: spacing.xl },
+  title: {
+    fontSize: fontSize.xxl,
+    fontWeight: '800',
+    color: colors.textPrimary,
+    letterSpacing: -0.5,
+    marginBottom: spacing.xs,
+  },
+  subtitle: { fontSize: fontSize.md, color: colors.textSecondary },
+  form: { gap: spacing.md, marginBottom: spacing.lg },
+  field: { gap: spacing.xs },
+  label: { fontSize: fontSize.sm, fontWeight: '600', color: colors.textPrimary },
+  input: {
+    height: 52,
+    borderWidth: 1.5,
+    borderColor: colors.border,
+    borderRadius: borderRadius.md,
+    paddingHorizontal: spacing.md,
+    fontSize: fontSize.md,
+    color: colors.textPrimary,
+    backgroundColor: colors.surface,
+  },
+  inputError: { borderColor: colors.error },
+  errorText: { fontSize: fontSize.xs, color: colors.error },
+  registerButton: {
+    height: 54,
+    backgroundColor: colors.primary,
+    borderRadius: borderRadius.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: spacing.lg,
+  },
+  registerButtonDisabled: { opacity: 0.6 },
+  registerButtonText: {
+    fontSize: fontSize.md,
+    fontWeight: '700',
+    color: colors.textInverse,
+    letterSpacing: 0.2,
+  },
+  footer: { flexDirection: 'row', justifyContent: 'center' },
+  footerText: { fontSize: fontSize.sm, color: colors.textSecondary },
+  footerLink: { fontSize: fontSize.sm, color: colors.primary, fontWeight: '600' },
+});
