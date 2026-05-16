@@ -3,25 +3,33 @@ import { Text, View, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import type { TabParamList, HomeStackParamList, OrdersStackParamList } from '@/types';
+import type {
+  TabParamList, HomeStackParamList,
+  OrdersStackParamList, SearchStackParamList, ProfileStackParamList,
+} from '@/types';
 import { colors, textStyles } from '@/constants';
+import { useCartStore } from '@/store';
 
-import { HomeScreen }            from '@/screens/Home/HomeScreen';
-import { StoreScreen }           from '@/screens/Store/StoreScreen';
-import { ProductDetailScreen }   from '@/screens/ProductDetail/ProductDetailScreen';
-import { CartScreen }            from '@/screens/Cart/CartScreen';
-import { CheckoutScreen }        from '@/screens/Checkout/CheckoutScreen';
-import { OrderTrackingScreen }   from '@/screens/OrderTracking/OrderTrackingScreen';
+// Screens
+import { HomeScreen }              from '@/screens/Home/HomeScreen';
+import { StoreScreen }             from '@/screens/Store/StoreScreen';
+import { ProductDetailScreen }     from '@/screens/ProductDetail/ProductDetailScreen';
+import { SearchScreen }            from '@/screens/Search/SearchScreen';
+import { CategoryResultsScreen }   from '@/screens/CategoryResults/CategoryResultsScreen';
+import { CartScreen }              from '@/screens/Cart/CartScreen';
+import { CheckoutScreen }          from '@/screens/Checkout/CheckoutScreen';
+import { OrderTrackingScreen }     from '@/screens/OrderTracking/OrderTrackingScreen';
+import { OrderHistoryScreen }      from '@/screens/OrderHistory/OrderHistoryScreen';
+import { ProfileScreen }           from '@/screens/Profile/ProfileScreen';
+import { AddressesScreen }         from '@/screens/Addresses/AddressesScreen';
+import { PaymentScreen }           from '@/screens/Payment/PaymentScreen';
 
-const Placeholder = ({ name }: { name: string }) => (
-  <View style={styles.placeholder}>
-    <Text style={styles.placeholderEmoji}>🚧</Text>
-    <Text style={styles.placeholderText}>{name} coming soon</Text>
-  </View>
-);
+// ─── Stacks ───────────────────────────────────────────────────────────────────
+const HomeStack    = createNativeStackNavigator<HomeStackParamList>();
+const SearchStack  = createNativeStackNavigator<SearchStackParamList>();
+const OrdersStack  = createNativeStackNavigator<OrdersStackParamList>();
+const ProfileStack = createNativeStackNavigator<ProfileStackParamList>();
 
-// ─── Home stack ──────────────────────────────────────────────────────────────
-const HomeStack = createNativeStackNavigator<HomeStackParamList>();
 const HomeNavigator = () => (
   <HomeStack.Navigator screenOptions={{ headerShown: false }}>
     <HomeStack.Screen name="Home"          component={HomeScreen} />
@@ -30,15 +38,28 @@ const HomeNavigator = () => (
   </HomeStack.Navigator>
 );
 
-// ─── Orders stack ─────────────────────────────────────────────────────────────
-const OrdersStack = createNativeStackNavigator<OrdersStackParamList>();
+const SearchNavigator = () => (
+  <SearchStack.Navigator screenOptions={{ headerShown: false }}>
+    <SearchStack.Screen name="Search"          component={SearchScreen} />
+    <SearchStack.Screen name="CategoryResults" component={CategoryResultsScreen} />
+  </SearchStack.Navigator>
+);
+
 const OrdersNavigator = () => (
   <OrdersStack.Navigator screenOptions={{ headerShown: false }}>
     <OrdersStack.Screen name="Cart"          component={CartScreen} />
     <OrdersStack.Screen name="Checkout"      component={CheckoutScreen} />
     <OrdersStack.Screen name="OrderTracking" component={OrderTrackingScreen} />
-    <OrdersStack.Screen name="OrderHistory"  component={() => <Placeholder name="Order history" />} />
+    <OrdersStack.Screen name="OrderHistory"  component={OrderHistoryScreen} />
   </OrdersStack.Navigator>
+);
+
+const ProfileNavigator = () => (
+  <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
+    <ProfileStack.Screen name="Profile"   component={ProfileScreen} />
+    <ProfileStack.Screen name="Addresses" component={AddressesScreen} />
+    <ProfileStack.Screen name="Payment"   component={PaymentScreen} />
+  </ProfileStack.Navigator>
 );
 
 // ─── Tab icon ────────────────────────────────────────────────────────────────
@@ -56,12 +77,12 @@ const TabIcon = ({ emoji, focused, badge }: { emoji: string; focused: boolean; b
   </View>
 );
 
-// ─── Tab navigator ───────────────────────────────────────────────────────────
+// ─── Tab navigator ────────────────────────────────────────────────────────────
 const Tab = createBottomTabNavigator<TabParamList>();
 
 export const TabNavigator = () => {
-  const insets = useSafeAreaInsets();
-  const itemCount = require('@/store').useCartStore((s: any) => s.itemCount());
+  const insets    = useSafeAreaInsets();
+  const itemCount = useCartStore((s) => s.itemCount());
 
   return (
     <Tab.Navigator
@@ -81,46 +102,22 @@ export const TabNavigator = () => {
         tabBarShowLabel:  true,
       }}
     >
-      <Tab.Screen
-        name="HomeTab"
-        component={HomeNavigator}
-        options={{ title: 'Home',    tabBarIcon: ({ focused }) => <TabIcon emoji="🏠" focused={focused} /> }}
-      />
-      <Tab.Screen
-        name="SearchTab"
-        component={() => <Placeholder name="Search" />}
-        options={{ title: 'Search',  tabBarIcon: ({ focused }) => <TabIcon emoji="🔍" focused={focused} /> }}
-      />
-      <Tab.Screen
-        name="OrdersTab"
-        component={OrdersNavigator}
-        options={{ title: 'Orders',  tabBarIcon: ({ focused }) => <TabIcon emoji="🛍️" focused={focused} badge={itemCount} /> }}
-      />
-      <Tab.Screen
-        name="ProfileTab"
-        component={() => <Placeholder name="Profile" />}
-        options={{ title: 'Profile', tabBarIcon: ({ focused }) => <TabIcon emoji="👤" focused={focused} /> }}
-      />
+      <Tab.Screen name="HomeTab"    component={HomeNavigator}    options={{ title: 'Home',    tabBarIcon: ({ focused }) => <TabIcon emoji="🏠" focused={focused} /> }} />
+      <Tab.Screen name="SearchTab"  component={SearchNavigator}  options={{ title: 'Search',  tabBarIcon: ({ focused }) => <TabIcon emoji="🔍" focused={focused} /> }} />
+      <Tab.Screen name="OrdersTab"  component={OrdersNavigator}  options={{ title: 'Orders',  tabBarIcon: ({ focused }) => <TabIcon emoji="🛍️" focused={focused} badge={itemCount} /> }} />
+      <Tab.Screen name="ProfileTab" component={ProfileNavigator} options={{ title: 'Profile', tabBarIcon: ({ focused }) => <TabIcon emoji="👤" focused={focused} /> }} />
     </Tab.Navigator>
   );
 };
 
 const styles = StyleSheet.create({
-  placeholder:      { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.background, gap: 12 },
-  placeholderEmoji: { fontSize: 40 },
-  placeholderText:  { ...textStyles.h3, color: colors.textSecondary },
-  tabIcon:  { alignItems: 'center', gap: 2 },
-  tabDot:   { width: 4, height: 4, borderRadius: 2, backgroundColor: colors.tabActive },
+  tabIcon: { alignItems: 'center', gap: 2 },
+  tabDot:  { width: 4, height: 4, borderRadius: 2, backgroundColor: colors.tabActive },
   badge: {
-    position: 'absolute',
-    top: -4,
-    right: -8,
+    position: 'absolute', top: -4, right: -8,
     backgroundColor: colors.primary,
-    borderRadius: 10,
-    minWidth: 16,
-    height: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
+    borderRadius: 10, minWidth: 16, height: 16,
+    alignItems: 'center', justifyContent: 'center',
     paddingHorizontal: 3,
   },
   badgeText: { ...textStyles.caption, color: colors.textInverse, fontSize: 9 },
